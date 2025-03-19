@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}관리자 대시보드{% endblock %}
+
+{% block content %}
+<h1>관리자 대시보드</h1>
+<h2>자재 추가</h2>
+<form action="{{ url_for('add_item') }}" method="post">
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="name"><br>
+    <label for="quantity">수량:</label>
+    <input type="number" id="quantity" name="quantity"><br>
+    <button type="submit">추가</button>
+</form>
+<h2>자재 목록</h2>
+<ul>
+    {% for item in items %}
+    <li>
+        {{ item.name }} - {{ item.quantity }}
+        <form action="{{ url_for('update_item', item_id=item.id) }}" method="post" style="display:inline;">
+            <input type="text" name="name" value="{{ item.name }}">
+            <input type="number" name="quantity" value="{{ item.quantity }}">
+            <button type="submit">수정</button>
+        </form>
+        <a href="{{ url_for('delete_item', item_id=item.id) }}">삭제</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

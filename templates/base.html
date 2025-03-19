@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('home') }}">홈</a>
+        {% if 'username' in session %}
+            <a href="{{ url_for('logout') }}">로그아웃</a>
+            {% if session['role'] == 'admin' %}
+                <a href="{{ url_for('admin_dashboard') }}">관리자 대시보드</a>
+                <a href="{{ url_for('admin_users') }}">사용자 관리</a>
+            {% elif session['role'] == 'customer' %}
+                <a href="{{ url_for('customer_dashboard') }}">고객사 대시보드</a>
+            {% endif %}
+        {% else %}
+            <a href="{{ url_for('register') }}">회원가입</a>
+        {% endif %}
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
